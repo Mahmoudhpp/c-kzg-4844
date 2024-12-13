@@ -3,6 +3,7 @@ package ethereum.ckzg4844;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import ethereum.ckzg4844.test_formats.*;
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -265,21 +266,21 @@ public class TestUtils {
   public static LoadTrustedSetupParameters createLoadTrustedSetupParameters(
       final String trustedSetup) {
     try (final BufferedReader reader = new BufferedReader(new FileReader(trustedSetup))) {
-      final int g1Count = Integer.parseInt(reader.readLine());
-      final int g2Count = Integer.parseInt(reader.readLine());
+      final int g1Count = Integer.parseInt(BoundedLineReader.readLine(reader, 5_000_000));
+      final int g2Count = Integer.parseInt(BoundedLineReader.readLine(reader, 5_000_000));
 
       final ByteBuffer g1MonomialBytes = ByteBuffer.allocate(g1Count * CKZG4844JNI.BYTES_PER_G1);
       final ByteBuffer g1LagrangeBytes = ByteBuffer.allocate(g1Count * CKZG4844JNI.BYTES_PER_G1);
       final ByteBuffer g2MonomialBytes = ByteBuffer.allocate(g2Count * CKZG4844JNI.BYTES_PER_G2);
 
       for (int i = 0; i < g1Count; i++) {
-        g1LagrangeBytes.put(Bytes.fromHexString(reader.readLine()).toArray());
+        g1LagrangeBytes.put(Bytes.fromHexString(BoundedLineReader.readLine(reader, 5_000_000)).toArray());
       }
       for (int i = 0; i < g2Count; i++) {
-        g2MonomialBytes.put(Bytes.fromHexString(reader.readLine()).toArray());
+        g2MonomialBytes.put(Bytes.fromHexString(BoundedLineReader.readLine(reader, 5_000_000)).toArray());
       }
       for (int i = 0; i < g1Count; i++) {
-        g1MonomialBytes.put(Bytes.fromHexString(reader.readLine()).toArray());
+        g1MonomialBytes.put(Bytes.fromHexString(BoundedLineReader.readLine(reader, 5_000_000)).toArray());
       }
 
       return new LoadTrustedSetupParameters(
