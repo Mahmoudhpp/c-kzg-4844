@@ -13,6 +13,7 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +28,7 @@ public class TestUtils {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper(new YAMLFactory());
 
-  private static final Random RANDOM = new Random();
+  private static final Random RANDOM = new SecureRandom();
 
   private static final String BLOB_TO_KZG_COMMITMENT_TESTS = "../../tests/blob_to_kzg_commitment/";
   private static final String COMPUTE_KZG_PROOF_TESTS = "../../tests/compute_kzg_proof/";
